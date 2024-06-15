@@ -9,6 +9,7 @@ set (CMAKE_AR ${PREFIX}gcc-ar CACHE FILEPATH "Archiver")
 set (CMAKE_C_COMPILER ${PREFIX}gcc CACHE FILEPATH "GCC")
 set (CMAKE_CXX_COMPILER ${PREFIX}g++ CACHE FILEPATH "G++")
 
+message(STATUS "---------CMAKE_SYSTEM_NAME = ${CMAKE_SYSTEM_NAME}")
 message(STATUS "---------CMAKE_STRIP = ${CMAKE_STRIP}")
 message(STATUS "---------CMAKE_NM = ${CMAKE_NM}")
 message(STATUS "---------CMAKE_RANLIB = ${CMAKE_RANLIB}")
@@ -24,18 +25,21 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 add_definitions(-D__X86_64__)
 add_definitions(-D__SSE__)
 set(CPP11  "-std=c++11")
-
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP11}"  CACHE STRING "" FORCE)
-# -fvisibility=hidden
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread -m64 -fPIC  -pipe -feliminate-unused-debug-types -DISS_EMNLU20_DEFINED -msse3 -msse4"  CACHE STRING "" FORCE)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread -m64 -fPIC -pipe -feliminate-unused-debug-types -DISS_EMNLU20_DEFINED -msse3 -msse4"  CACHE STRING "" FORCE)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP11} -pthread -m64 -fPIC -fpermissive -pipe -feliminate-unused-debug-types -DISS_EMNLU20_DEFINED -msse3 -msse4"  CACHE STRING "" FORCE)
-
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ggdb3 -O0")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb3 -O0")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
 else()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2"  CACHE STRING "" FORCE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2"  CACHE STRING "" FORCE)
+endif()
+
+# for sanitize ...
+if(USE_SANITIZE)
+    MESSAGE(STATUS "Just INTEL LINUX x64 supported ...")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=address -fno-omit-frame-pointer -m64 -fPIC -pipe -feliminate-unused-debug-types -DISS_EMNLU20_DEFINED -msse3 -msse4")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP11} -g -fsanitize=address -fno-omit-frame-pointer -m64 -fPIC -fpermissive -pipe -feliminate-unused-debug-types -DISS_EMNLU20_DEFINED -msse3 -msse4")
 endif()
 
 set(output_dir  "${PROJECT_SOURCE_DIR}/output")

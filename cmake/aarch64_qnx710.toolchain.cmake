@@ -14,7 +14,7 @@ set(CPP11  "-std=c++11")
 add_definitions(-D__QNX__)
 add_definitions(-D_QNX_SOURCE)
 add_definitions(-D__unix__)
-add_definitions(-D__qnx700__)
+add_definitions(-D__qnx710__)
 
 
 set(CMAKE_C_COMPILER $ENV{QNX_HOST}/usr/bin/${arch}-gcc)
@@ -45,19 +45,23 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,--no-keep-memory -lm -march=armv8-a -DNDEBUG -Wno-unknown-pragmas -Wno-unused-function -Wno-strict-aliasing -O2 -ftree-vectorize -pipe -no-canonical-prefixes -fPIC" CACHE STRING "CMAKE_C_FLAGS")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP11} -Wl,--no-keep-memory -lm -march=armv8-a -DNDEBUG -fpermissive -Wno-unknown-pragmas -Wno-unused-function -Wno-strict-aliasing -O2 -ftree-vectorize -pipe -no-canonical-prefixes -fPIC" CACHE STRING "CMAKE_CXX_FLAGS")
 
+
 message(STATUS "---------QNX_TARGET = $ENV{QNX_TARGET}")
 message(STATUS "---------INCLUDE_DIR_QNX = $ENV{QNX_TARGET}/usr/include")
 include_directories($ENV{QNX_TARGET}/usr/include)
 
-file(GLOB_RECURSE libgcc_a 
-  "$ENV{QNX_HOST}/usr/lib/gcc/${QNX_PROCESSOR}*/*/pic/libgcc.a")
-set(CMAKE_C_STANDARD_LIBRARIES_INIT
-  "${libgcc_a} -lc -Bstatic -lcS ${libgcc_a}")
-set(CMAKE_CXX_STANDARD_LIBRARIES_INIT
-  "-lc++ -lm ${CMAKE_C_STANDARD_LIBRARIES_INIT}")
-set(CMAKE_EXE_LINKER_FLAGS_INIT "-nodefaultlibs")
-set(CMAKE_SHARED_LINKER_FLAGS_INIT "-nodefaultlibs")
-set(CMAKE_MODULE_LINKER_FLAGS_INIT "-nodefaultlibs")
+# file(GLOB_RECURSE libgcc_a 
+#   "$ENV{QNX_HOST}/usr/lib/gcc/${QNX_PROCESSOR}*/*/pic/libgcc.a")
+
+# set(CMAKE_C_STANDARD_LIBRARIES_INIT
+#   "${libgcc_a} -lc -Bstatic -lcS ${libgcc_a}")
+# set(CMAKE_CXX_STANDARD_LIBRARIES_INIT
+#   "-lc++ -lm ${CMAKE_C_STANDARD_LIBRARIES_INIT}")
+
+# set(CMAKE_EXE_LINKER_FLAGS_INIT "-nodefaultlibs")
+# set(CMAKE_SHARED_LINKER_FLAGS_INIT "-nodefaultlibs")
+# set(CMAKE_MODULE_LINKER_FLAGS_INIT "-nodefaultlibs")
+
 set(CMAKE_THREAD_LIBS_INIT "-lpthread")
 set(CMAKE_HAVE_THREADS_LIBRARY 1)
 set(CMAKE_USE_WIN32_THREADS_INIT 0)
@@ -65,9 +69,9 @@ set(CMAKE_USE_PTHREADS_INIT 1)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 set(output_dir  "${PROJECT_SOURCE_DIR}/output")
-message(STATUS "AARACH64 QNX700 PLATFORM")
-set (bin_dir "${output_dir}/bin/aarch64_qnx700")
-set (lib_dir "${output_dir}/lib/aarch64_qnx700")
+message(STATUS "AARCH64 QNX710 PLATFORM")
+set (bin_dir "${output_dir}/bin/aarch64_qnx710")
+set (lib_dir "${output_dir}/lib/aarch64_qnx710")
 
 if(NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY)
 	set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${bin_dir}")

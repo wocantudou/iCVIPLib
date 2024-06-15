@@ -7,7 +7,6 @@ include_directories(
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}  UNIT_TEST)
 set(thirdparty_lib_dir "")
 set(thirdparty_lib "")
-list(APPEND thirdparty_lib "dl")
 
 if(MSVC)
 	list(APPEND thirdparty_lib_dir "../../thirdparty/opencv/x64/vc15/lib")
