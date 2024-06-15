@@ -1,10 +1,10 @@
 #  Minimum verion cmake required
 cmake_minimum_required(VERSION 3.6)
 #  Project
-project  (iCVIPLib C CXX)
+project  (iCVIPLibApi C CXX)
 set(source_dir  "${PROJECT_SOURCE_DIR}/source")
 
-set(ENGINE_NAME iCVIPLib)
+set(ENGINE_NAME iCVIPLibApi)
 set(ENGINE_VERSION_MAJOR 1.0)
 set(ENGINE_VERSION_MINOR 100)
 set(ENGINE_VERSION_PATCH 0)
@@ -46,7 +46,7 @@ MESSAGE(STATUS "~~~~~~~~~~~~~~~~~~ENGINE_VERSION_MINOR = ${ENGINE_VERSION_MINOR}
 MESSAGE(STATUS "~~~~~~~~~~~~~~~~~~ENGINE_VERSION_PATCH = ${ENGINE_VERSION_PATCH}")
 
 configure_file(
-    "${source_dir}/iCVIPLib/iCVIPLib_config.h.in"
+    "${source_dir}/iCVIPLibApi/iCVIPLib_config.h.in"
 		"${PROJECT_BINARY_DIR}/iCVIPLib_config.h"
 )
 
@@ -89,9 +89,8 @@ else()
     include_directories(${source_dir}/include)
 endif()
 
-add_subdirectory(${source_dir}/iCVIPLib)
+add_subdirectory(${source_dir}/iCVIPLibApi)
 
 if (BUILD_IPL_TEST)
-    # include_directories(${source_dir}/test)
-    # add_subdirectory(${source_dir}/test)
+    add_subdirectory(${source_dir}/iCVIPLibTest)
 endif()

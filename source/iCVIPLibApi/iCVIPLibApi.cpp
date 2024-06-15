@@ -1,4 +1,4 @@
-#include "iCVIPLib.h"
+#include "iCVIPLibApi.h"
 #include <fstream>
 
 namespace ICV_SAFE_OPENCV {
