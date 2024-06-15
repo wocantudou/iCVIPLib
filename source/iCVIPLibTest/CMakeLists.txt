@@ -2,6 +2,7 @@
 include_directories(
 					./
 					${PROJECT_SOURCE_DIR}/source/iCVIPLibApi
+					${PROJECT_SOURCE_DIR}/source/include
 					)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}  UNIT_TEST)
 set(thirdparty_lib_dir "")
@@ -12,7 +13,7 @@ if(MSVC)
 	list(APPEND thirdparty_lib_dir "../../thirdparty/opencv/x64/vc15/lib")
 	list(APPEND thirdparty_lib_dir ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
 	list(APPEND thirdparty_lib_dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
-	list(APPEND thirdparty_lib ${ENGINE_NAME})
+	list(APPEND thirdparty_lib ${ENGINE_NAME_WITH_VERSION})
 else ()
 	# add thridyparty library
 	list(APPEND thirdparty_lib_dir ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})

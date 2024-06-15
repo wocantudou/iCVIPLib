@@ -6,7 +6,7 @@ bool is_file_exist(const std::string &filename) {
     std::ifstream file(filename);
     return file.good();
 }
-cv::Mat safe_imread(const std::string &filename, int flags) {
+cv::Mat SafeOpenCVBase::imread(const std::string &filename, int flags) {
     // Check if file exists
     if (!is_file_exist(filename)) {
         std::cerr << "Error: The file '" << filename << "' does not exist."
@@ -23,8 +23,8 @@ cv::Mat safe_imread(const std::string &filename, int flags) {
     return image;
 }
 
-bool safe_imwrite(const std::string &filename, const cv::Mat &img,
-                  const std::vector<int> &params) {
+bool SafeOpenCVBase::imwrite(const std::string &filename, const cv::Mat &img,
+                             const std::vector<int> &params) {
     // Check if directory exists
     std::string directory = filename.substr(0, filename.find_last_of('/'));
     if (!directory.empty() && !is_file_exist(directory)) {
@@ -53,8 +53,8 @@ bool safe_imwrite(const std::string &filename, const cv::Mat &img,
         return false;
     }
 }
-cv::Mat safe_resize(const cv::Mat &src, const cv::Size &dsize, double fx,
-                    double fy, int interpolation) {
+cv::Mat SafeOpenCVBase::resize(const cv::Mat &src, const cv::Size &dsize,
+                               double fx, double fy, int interpolation) {
     // Check if source image is empty
     if (src.empty()) {
         std::cerr << "Error: The source image is empty." << std::endl;
@@ -79,7 +79,7 @@ cv::Mat safe_resize(const cv::Mat &src, const cv::Size &dsize, double fx,
     }
 }
 
-cv::Mat safe_cvtColor(const cv::Mat &src, int code) {
+cv::Mat SafeOpenCVBase::cvtColor(const cv::Mat &src, int code) {
     // Check if source image is empty
     if (src.empty()) {
         std::cerr << "Error: The source image is empty." << std::endl;
@@ -99,7 +99,8 @@ cv::Mat safe_cvtColor(const cv::Mat &src, int code) {
     }
 }
 
-cv::Mat safe_crop(const cv::Mat &src, const cv::Rect &roi, bool adaptive) {
+cv::Mat SafeOpenCVBase::crop(const cv::Mat &src, const cv::Rect &roi,
+                             bool adaptive) {
     // Check if source image is empty
     if (src.empty()) {
         std::cerr << "Error: The source image is empty." << std::endl;
@@ -150,9 +151,9 @@ cv::Mat safe_crop(const cv::Mat &src, const cv::Rect &roi, bool adaptive) {
     }
 }
 
-int sub_mean_and_divide_std(const CHANNEL_SEPARATION_TYPE chl_sepr_type,
-                            const cv::Mat &img, const float *mean_data,
-                            const float *std_data, float *forward_data) {
+int SafeOpenCVBase::sub_mean_and_divide_std(
+    const CHANNEL_SEPARATION_TYPE chl_sepr_type, const cv::Mat &img,
+    const float *mean_data, const float *std_data, float *forward_data) {
 
     if (img.empty()) {
         std::cerr << "empty image." << std::endl;

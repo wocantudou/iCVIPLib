@@ -1,6 +1,7 @@
 #generate library
 include_directories(
 					./
+					${PROJECT_SOURCE_DIR}/source/include
 					)
                     
 #***************static library************
