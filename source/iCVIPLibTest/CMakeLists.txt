@@ -6,14 +6,29 @@ include_directories(
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}  UNIT_TEST)
 set(thirdparty_lib_dir "")
 set(thirdparty_lib "")
+list(APPEND thirdparty_lib "dl")
 
-if (NOT MSVC AND NOT CMAKE_SYSTEM_NAME STREQUAL "QNX")
-    list(APPEND thirdparty_lib "dl")
+if(MSVC)
+	list(APPEND thirdparty_lib_dir "../../thirdparty/opencv/x64/vc15/lib")
+	list(APPEND thirdparty_lib_dir ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
+	list(APPEND thirdparty_lib_dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
+	list(APPEND thirdparty_lib ${ENGINE_NAME})
+else ()
+	# add thridyparty library
+	list(APPEND thirdparty_lib_dir ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+	list(APPEND thirdparty_lib_dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+	if (NOT CMAKE_SYSTEM_NAME STREQUAL "QNX")
+		list(APPEND thirdparty_lib "dl")
+	endif ()
+	if (CMAKE_SYSTEM_NAME STREQUAL "Android")
+		list(APPEND thirdparty_lib ${ENGINE_NAME_WITH_VERSION})
+	else()
+		list(APPEND thirdparty_lib ${ENGINE_NAME})
+	endif()
 endif ()
 
-
 link_directories(
-	${thirdparty_lib_dir}
+    ${thirdparty_lib_dir}
 )
 
 set(EXE_TARGET_NAME iCVIPLibTest)
@@ -21,13 +36,6 @@ set(EXE_TARGET_NAME iCVIPLibTest)
 if(MSVC)
 	set_property(GLOBAL PROPERTY USE_FOLDERS ON) #open directory
 	#*************executable target*********
-	# windows getopt support
-	#add_definitions(-D__cplusplus)
-	#include_directories(
-	#${CMAKE_CURRENT_SOURCE_DIR}/../include/common/get_opt
-	#)
-	#aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../include/common/get_opt  UNIT_TEST)
-
 	add_executable(${EXE_TARGET_NAME}  ${UNIT_TEST})
 	target_link_libraries (${EXE_TARGET_NAME} ${thirdparty_lib})
 	set_property(TARGET ${EXE_TARGET_NAME} PROPERTY FOLDER "iCVIPLibTest")

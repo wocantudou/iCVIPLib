@@ -49,20 +49,26 @@ if(MSVC)
 	endif()
 else ()
 	#***************static library************
-	add_library(iCVIPLib_static STATIC ${iCVIPLib_STATIC_LIB})
-	# set_target_properties (iCVIPLib_static PROPERTIES LINK_FLAGS  -Wl,--no-undefined,--retain-symbols-file,${CMAKE_CURRENT_SOURCE_DIR}/iCVIPLibApi.sym)
+	add_library(${ENGINE_NAME_WITH_VERSION} STATIC ${iCVIPLib_STATIC_LIB})
+	# set_target_properties(${ENGINE_NAME_WITH_VERSION} PROPERTIES LINK_FLAGS "-Wl,--no-undefined,--retain-symbols-file,${CMAKE_CURRENT_SOURCE_DIR}/iCVFrameWork_static.sym")
 	#***************shared library************
     if(BUILD_IPL_SHARED)
-		add_library(${ENGINE_NAME_WITH_VERSION} SHARED ${iCVIPLib_SHARED_LIB})
-		target_link_libraries (${ENGINE_NAME_WITH_VERSION} ${thirdparty_lib})
-		if(NOT MSVC AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-			#get_target_property(target_name ${ENGINE_NAME_WITH_VERSION}.so OUTPUT_NAME)
-			add_custom_command(TARGET ${ENGINE_NAME_WITH_VERSION} POST_BUILD
-							WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-							COMMAND ${CMAKE_STRIP} "-s" "lib${ENGINE_NAME_WITH_VERSION}.so")
-			#MESSAGE(STATUS "************ENGINE_NAME_WITH_VERSION = ${ENGINE_NAME_WITH_VERSION}")
-			#MESSAGE(STATUS "************target_name = ${target_name}")
-			# set_target_properties(${ENGINE_NAME_WITH_VERSION} PROPERTIES LINK_FLAGS  -Wl,--no-undefined,--version-script,${CMAKE_CURRENT_SOURCE_DIR}/iCVIPLibApi.map)
+		# for shared
+		if (CMAKE_SYSTEM_NAME STREQUAL "Android")
+			add_library(${ENGINE_NAME_WITH_VERSION} SHARED ${iCVIPLib_SHARED_LIB})
+			target_link_libraries(${ENGINE_NAME_WITH_VERSION} ${thirdparty_lib})
+		else()
+			set(ENGINE_NAME_WITH_VERSION ${ENGINE_NAME} CACHE STRING "" FORCE)
+			add_library(${ENGINE_NAME_WITH_VERSION} SHARED ${iCVIPLib_SHARED_LIB})
+			target_link_libraries(${ENGINE_NAME_WITH_VERSION} ${thirdparty_lib})
+			set_target_properties(${ENGINE_NAME_WITH_VERSION} PROPERTIES VERSION ${ENGINE_VERSION_MAJOR}.${ENGINE_VERSION_MINOR}.${ENGINE_VERSION_PATCH} SOVERSION ${ENGINE_VERSION_MAJOR})
 		endif()
+		if (NOT APPLE AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+			add_custom_command(TARGET ${ENGINE_NAME_WITH_VERSION} POST_BUILD
+				WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+				COMMAND ${CMAKE_STRIP} -s "lib${ENGINE_NAME_WITH_VERSION}.so"
+			)
+			# set_target_properties(${ENGINE_NAME_WITH_VERSION} PROPERTIES LINK_FLAGS "-Wl,--no-undefined,--version-script,${CMAKE_CURRENT_SOURCE_DIR}/iCVFrameWork_shared.map")
+		endif()		
 	endif()
 endif()
