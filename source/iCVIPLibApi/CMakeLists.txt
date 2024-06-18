@@ -38,23 +38,19 @@ MESSAGE(STATUS "************thirdparty_lib_dir = ${thirdparty_lib_dir}")
 
 if(MSVC)
 	set_property(GLOBAL PROPERTY USE_FOLDERS ON) #open directory
-	#***************static library************
-	add_library(iCVIPLib_static STATIC ${iCVIPLib_STATIC_LIB})
-	#target_link_libraries (iCVIPLib_static ${thirdparty_lib})
-	set_property(TARGET iCVIPLib_static PROPERTY FOLDER "iCVIPLibApi")
-	#***************shared library************
+	set(ENGINE_NAME_WITH_VERSION ${ENGINE_NAME} CACHE STRING "" FORCE)
 	if(BUILD_IPL_SHARED)
-		add_library(iCVIPLib_shared SHARED ${iCVIPLib_SHARED_LIB})
-		target_link_libraries (iCVIPLib_shared ${thirdparty_lib})
-		set_property(TARGET iCVIPLib_shared PROPERTY FOLDER "iCVIPLibApi")
+		#***************shared library************
+		add_library(${ENGINE_NAME_WITH_VERSION} SHARED ${iCVIPLib_SHARED_LIB})
+		target_link_libraries (${ENGINE_NAME_WITH_VERSION} ${thirdparty_lib})
+	else()
+		#***************static library************
+		add_library(${ENGINE_NAME_WITH_VERSION} STATIC ${iCVIPLib_STATIC_LIB})
 	endif()
+	set_property(TARGET ${ENGINE_NAME_WITH_VERSION} PROPERTY FOLDER "iCVIPLibApi")
 else ()
-	#***************static library************
-	add_library(${ENGINE_NAME_WITH_VERSION} STATIC ${iCVIPLib_STATIC_LIB})
-	# set_target_properties(${ENGINE_NAME_WITH_VERSION} PROPERTIES LINK_FLAGS "-Wl,--no-undefined,--retain-symbols-file,${CMAKE_CURRENT_SOURCE_DIR}/iCVFrameWork_static.sym")
-	#***************shared library************
     if(BUILD_IPL_SHARED)
-		# for shared
+		#***************shared library************
 		if (CMAKE_SYSTEM_NAME STREQUAL "Android")
 			add_library(${ENGINE_NAME_WITH_VERSION} SHARED ${iCVIPLib_SHARED_LIB})
 			target_link_libraries(${ENGINE_NAME_WITH_VERSION} ${thirdparty_lib})
@@ -71,5 +67,9 @@ else ()
 			)
 			# set_target_properties(${ENGINE_NAME_WITH_VERSION} PROPERTIES LINK_FLAGS "-Wl,--no-undefined,--version-script,${CMAKE_CURRENT_SOURCE_DIR}/iCVFrameWork_shared.map")
 		endif()		
+	else()
+		#***************static library************
+		add_library(${ENGINE_NAME} STATIC ${iCVIPLib_STATIC_LIB})
+		# set_target_properties(${ENGINE_NAME_WITH_VERSION} PROPERTIES LINK_FLAGS "-Wl,--no-undefined,--retain-symbols-file,${CMAKE_CURRENT_SOURCE_DIR}/iCVFrameWork_static.sym")
 	endif()
 endif()
