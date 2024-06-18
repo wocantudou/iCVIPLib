@@ -20,16 +20,17 @@ class SafeOpenCVBase {
     virtual ~SafeOpenCVBase() {}
 
   public:
+    // OpenCV function with the same name
     virtual cv::Mat imread(const std::string &filename,
                            int flags = cv::IMREAD_COLOR);
-
     virtual bool imwrite(const std::string &filename, const cv::Mat &img,
                          const std::vector<int> &params = std::vector<int>());
-    virtual cv::Mat resize(const cv::Mat &src, const cv::Size &dsize,
-                           double fx = 0, double fy = 0,
-                           int interpolation = cv::INTER_LINEAR);
-    virtual cv::Mat cvtColor(const cv::Mat &src, int code);
-
+    virtual void resize(const cv::Mat &src, cv::Mat &dst, cv::Size size,
+                        double inv_scale_x = 0., double inv_scale_y = 0.,
+                        int interpolation = cv::INTER_LINEAR);
+    virtual void cvtColor(const cv::Mat &src, cv::Mat &dst, int code,
+                          int dcn = 0);
+    // Others Anything else you like
     virtual cv::Mat crop(const cv::Mat &src, const cv::Rect &roi,
                          bool adaptive = true);
     virtual int

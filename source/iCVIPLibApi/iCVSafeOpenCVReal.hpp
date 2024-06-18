@@ -18,10 +18,11 @@ class SafeOpenCVReal : public SafeOpenCVBase {
     //              const std::vector<int> &params = std::vector<int>())
     //              override {
     // }
-    // cv::Mat resize(const cv::Mat &src, const cv::Size &dsize, double fx = 0,
-    //                double fy = 0,
-    //                int interpolation = cv::INTER_LINEAR) override {}
-    // cv::Mat cvtColor(const cv::Mat &src, int code) override {}
+    // virtual void resize(const cv::Mat &src, cv::Mat &dst, cv::Size &dsize,
+    //                     double inv_scale_x = 0., double inv_scale_y = 0.,
+    //                     int interpolation = cv::INTER_LINEAR) {}
+    // virtual void cvtColor(const cv::Mat &src, cv::Mat &dst, int code,
+    //                       int dcn = 0) {}
 
     // cv::Mat crop(const cv::Mat &src, const cv::Rect &roi,
     //              bool adaptive = true) override {}

@@ -53,49 +53,51 @@ bool SafeOpenCVBase::imwrite(const std::string &filename, const cv::Mat &img,
         return false;
     }
 }
-cv::Mat SafeOpenCVBase::resize(const cv::Mat &src, const cv::Size &dsize,
-                               double fx, double fy, int interpolation) {
+void SafeOpenCVBase::resize(const cv::Mat &src, cv::Mat &dst, cv::Size size,
+                            double inv_scale_x, double inv_scale_y,
+                            int interpolation) {
+    dst = cv::Mat();
     // Check if source image is empty
     if (src.empty()) {
         std::cerr << "Error: The source image is empty." << std::endl;
-        return cv::Mat();
+        return;
     }
 
     // Check if destination size is valid
-    if (dsize.width <= 0 || dsize.height <= 0) {
+    if (size.width <= 0 || size.height <= 0) {
         std::cerr << "Error: Invalid destination size." << std::endl;
-        return cv::Mat();
+        return;
     }
 
     // Resize image
     try {
-        cv::Mat resized_image;
-        cv::resize(src, resized_image, dsize, fx, fy, interpolation);
-        return resized_image;
+        cv::resize(src, dst, size, inv_scale_x, inv_scale_y, interpolation);
+        return;
     } catch (cv::Exception &e) {
         std::cerr << "Exception occurred while resizing the image: " << e.msg
                   << std::endl;
-        return cv::Mat();
+        return;
     }
 }
 
-cv::Mat SafeOpenCVBase::cvtColor(const cv::Mat &src, int code) {
+void SafeOpenCVBase::cvtColor(const cv::Mat &src, cv::Mat &dst, int code,
+                              int dcn) {
+    dst = cv::Mat();
     // Check if source image is empty
     if (src.empty()) {
         std::cerr << "Error: The source image is empty." << std::endl;
-        return cv::Mat();
+        return;
     }
 
     // Convert color
     try {
-        cv::Mat converted_image;
-        cv::cvtColor(src, converted_image, code);
-        return converted_image;
+        cv::cvtColor(src, dst, code);
+        return;
     } catch (cv::Exception &e) {
         std::cerr
             << "Exception occurred while converting the image color space: "
             << e.msg << std::endl;
-        return cv::Mat();
+        return;
     }
 }
 

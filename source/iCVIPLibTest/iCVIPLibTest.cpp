@@ -33,8 +33,9 @@ int main(int argc, char *argv[]) {
     std::cout << "Hello World" << std::endl;
     cv::Mat img = iCVimread(input_file);
     CHECK_IMAGE_EMPTY(img);
-    cv::Mat img_rsz = iCVresize(img, cv::Size(100, 100));
-    CHECK_IMAGE_EMPTY(img);
+    cv::Mat img_rsz;
+    iCVresize(img, img_rsz, cv::Size(100, 100));
+    CHECK_IMAGE_EMPTY(img_rsz);
     bool flag = iCVimwrite(output_file, img_rsz);
     CHECK_RETURN_BOOL(flag);
     return ret;
