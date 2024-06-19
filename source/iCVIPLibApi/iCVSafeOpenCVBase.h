@@ -1,5 +1,6 @@
 #pragma once
-#include <opencv2/opencv.hpp>
+#include "core/nanodet_decode.hpp"
+#include "core/nms.hpp"
 // Keep the input parameters and return values of the encapsulated function
 // consistent with the native OpenCV function
 
@@ -37,6 +38,15 @@ class SafeOpenCVBase {
     sub_mean_and_divide_std(const CHANNEL_SEPARATION_TYPE chl_sepr_type,
                             const cv::Mat &img, const float *mean_data,
                             const float *std_data, float *forward_data);
+    virtual int nms(const std::vector<cv::Rect2f> &src_rects,
+                    const std::vector<float> &scores, float iou_thres,
+                    int max_init_nms_cnt, std::vector<NMSOutData> &nms_res,
+                    int neighbors = 0, float min_scores_sum = 0.f);
+    virtual void decode_infer(int input_h, int input_w,
+                              std::vector<ClsPred> &cls_pred_vec,
+                              std::vector<MmyoloDisPred> &dis_pred_vec,
+                              int stride, float threshold,
+                              std::vector<std::vector<BoxInfo>> &results);
 };
 
 } // namespace ICV_SAFE_OPENCV

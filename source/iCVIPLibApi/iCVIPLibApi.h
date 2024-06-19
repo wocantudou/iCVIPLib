@@ -8,3 +8,5 @@
 #define iCVcvtColor SafeOpenCVRealInst()->cvtColor
 #define iCVcrop SafeOpenCVRealInst()->crop
 #define iCVsub_mean_and_divide_std SafeOpenCVRealInst()->sub_mean_and_divide_std
+#define iCVnms SafeOpenCVRealInst()->nms
+#define iCVdecode_infer SafeOpenCVRealInst()->decode_infer
