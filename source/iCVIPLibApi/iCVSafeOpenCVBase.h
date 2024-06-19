@@ -44,8 +44,8 @@ class SafeOpenCVBase {
                     int neighbors = 0, float min_scores_sum = 0.f);
     virtual void decode_infer(int input_h, int input_w,
                               std::vector<ClsPred> &cls_pred_vec,
-                              std::vector<MmyoloDisPred> &dis_pred_vec,
-                              int stride, float threshold,
+                              std::vector<DisPred> &dis_pred_vec, int stride,
+                              float threshold,
                               std::vector<std::vector<BoxInfo>> &results);
 };
 

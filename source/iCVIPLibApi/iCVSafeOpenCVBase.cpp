@@ -264,7 +264,7 @@ int SafeOpenCVBase::nms(const std::vector<cv::Rect2f> &src_rects,
 
 void SafeOpenCVBase::decode_infer(int input_h, int input_w,
                                   std::vector<ClsPred> &cls_pred_vec,
-                                  std::vector<MmyoloDisPred> &dis_pred_vec,
+                                  std::vector<DisPred> &dis_pred_vec,
                                   int stride, float threshold,
                                   std::vector<std::vector<BoxInfo>> &results) {
     decode_infer(input_h, input_w, cls_pred_vec, dis_pred_vec, stride,

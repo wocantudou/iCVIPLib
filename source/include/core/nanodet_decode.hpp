@@ -10,8 +10,8 @@
 #include <vector>
 
 namespace ICV_SAFE_OPENCV {
-#define DIS_PRED_LEN (32)
-#define MMYOLO_DIS_PRED_LEN (4)
+// #define DIS_PRED_LEN (32)
+#define DIS_PRED_LEN (4)
 #define NUM_CLASS (1) // 80
 
 #define INPUT_SIZE (160)
@@ -24,10 +24,6 @@ typedef struct _ClsPred {
 typedef struct _DisPred {
     float dis_preds[DIS_PRED_LEN];
 } DisPred;
-
-typedef struct _MmyoloDisPred {
-    float dis_preds[MMYOLO_DIS_PRED_LEN];
-} MmyoloDisPred;
 
 typedef struct _HeadInfo {
     std::string cls_layer;
@@ -89,7 +85,7 @@ BoxInfo disPred2Bbox(int input_h, int input_w, const float *&dfl_det, int label,
 }
 
 void decode_infer(int input_h, int input_w, std::vector<ClsPred> &cls_pred_vec,
-                  std::vector<MmyoloDisPred> &dis_pred_vec, int stride,
+                  std::vector<DisPred> &dis_pred_vec, int stride,
                   float threshold, std::vector<std::vector<BoxInfo>> &results) {
     int feature_h = input_h / stride;
     int feature_w = input_w / stride;
