@@ -40,13 +40,15 @@ class SafeOpenCVBase {
                             const float *std_data, float *forward_data);
     virtual int nms(const std::vector<cv::Rect2f> &src_rects,
                     const std::vector<float> &scores, float iou_thres,
-                    int max_init_nms_cnt, std::vector<NMSOutData> &nms_res,
+                    int max_init_nms_cnt,
+                    std::vector<iCVNMSClass::NMSOutData> &nms_res,
                     int neighbors = 0, float min_scores_sum = 0.f);
-    virtual void decode_infer(int input_h, int input_w,
-                              std::vector<ClsPred> &cls_pred_vec,
-                              std::vector<DisPred> &dis_pred_vec, int stride,
-                              float threshold,
-                              std::vector<std::vector<BoxInfo>> &results);
+    virtual void decode_infer(
+        int input_h, int input_w,
+        std::vector<iCVNanodetDecodeClass::ClsPred> &cls_pred_vec,
+        std::vector<iCVNanodetDecodeClass::DisPred> &dis_pred_vec, int stride,
+        float threshold,
+        std::vector<std::vector<iCVNanodetDecodeClass::BoxInfo>> &results);
 };
 
 } // namespace ICV_SAFE_OPENCV

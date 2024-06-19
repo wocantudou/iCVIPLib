@@ -256,19 +256,22 @@ int SafeOpenCVBase::sub_mean_and_divide_std(
 
 int SafeOpenCVBase::nms(const std::vector<cv::Rect2f> &src_rects,
                         const std::vector<float> &scores, float iou_thres,
-                        int max_init_nms_cnt, std::vector<NMSOutData> &nms_res,
+                        int max_init_nms_cnt,
+                        std::vector<iCVNMSClass::NMSOutData> &nms_res,
                         int neighbors, float min_scores_sum) {
-    return nms2(src_rects, scores, iou_thres, max_init_nms_cnt, nms_res,
-                neighbors, min_scores_sum);
+    return iCVNMSInst()->nms2(src_rects, scores, iou_thres, max_init_nms_cnt,
+                              nms_res, neighbors, min_scores_sum);
 }
 
-void SafeOpenCVBase::decode_infer(int input_h, int input_w,
-                                  std::vector<ClsPred> &cls_pred_vec,
-                                  std::vector<DisPred> &dis_pred_vec,
-                                  int stride, float threshold,
-                                  std::vector<std::vector<BoxInfo>> &results) {
-    decode_infer(input_h, input_w, cls_pred_vec, dis_pred_vec, stride,
-                 threshold, results);
+void SafeOpenCVBase::decode_infer(
+    int input_h, int input_w,
+    std::vector<iCVNanodetDecodeClass::ClsPred> &cls_pred_vec,
+    std::vector<iCVNanodetDecodeClass::DisPred> &dis_pred_vec, int stride,
+    float threshold,
+    std::vector<std::vector<iCVNanodetDecodeClass::BoxInfo>> &results) {
+    iCVNanodetDecodeInst()->decode_infer(input_h, input_w, cls_pred_vec,
+                                         dis_pred_vec, stride, threshold,
+                                         results);
 }
 
 } // namespace ICV_SAFE_OPENCV
